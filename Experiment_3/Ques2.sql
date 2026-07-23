@@ -1,68 +1,84 @@
-CREATE TABLE Employee (
+CREATE TABLE employees (
     emp_id INT PRIMARY KEY,
-    emp_name VARCHAR(50),
-    department VARCHAR(30),
-    salary DECIMAL(10,2),
-    age INT,
-    city VARCHAR(30)
+    emp_name VARCHAR(100) NOT NULL,
+    emp_salary DECIMAL(10, 2) NOT NULL,
+      emp_city VARCHAR(100) NOT NULL
 );
 
-INSERT INTO Employee VALUES
-(101, 'Amit', 'IT', 60000, 25, 'Delhi'),
-(102, 'Priya', 'HR', 45000, 28, 'Mumbai'),
-(103, 'Rahul', 'IT', 70000, 30, 'Pune'),
-(104, 'Sneha', 'Finance', 55000, 27, 'Delhi'),
-(105, 'Karan', 'HR', 48000, 24, 'Chandigarh'),
-(106, 'Neha', 'Finance', 75000, 35, 'Mumbai'),
-(107, 'Arjun', 'IT', 65000, 29, 'Bangalore'),
-(108, 'Riya', 'Marketing', 50000, 26, 'Pune');
+INSERT INTO employees (emp_id, emp_name, emp_salary, emp_city) VALUES
+(101, 'Amit Sharma', 85000.00, 'Mumbai'),
+(102, 'Priya Patel', 95000.00, 'Mumbai'),
+(103, 'Rahul Verma', 60000.00, 'Delhi'),
+(104, 'Ananya Iyer', 110000.00, 'Bangalore'),
+(105, 'Vikram Singh', 55000.00, 'Delhi'),
+(106, 'Sneha Reddy', 105000.00, 'Bangalore'),
+(107, 'Rohan Das', 72000.00, 'Kolkata')
 
-SELECT * FROM Employee;
+-- AGGREGATE FUNCTION -> SUM(),MIN(),MAX(),AVG(),COUNT(),
+-- DISTINCT
+-- HAVING
 
-SELECT emp_name, salary
-FROM Employee
-WHERE salary > 50000;
+-- FIND THE TOTAL NUMBER OF EMPLOYEES IN EACH CITY
+SELECT  emp_city ,count(*) as cnt FROM EMPLOYEES
+GROUP BY emp_city
 
-SELECT *
-FROM Employee
-WHERE department = 'IT';
 
-SELECT *
-FROM Employee
-WHERE age < 30;
 
-SELECT *
-FROM Employee
-WHERE city = 'Delhi';
+-- FIND THE TOTAL NUMBER OF EMPLOYEES IN EACH CITY AND SORT BY CNT IN ASC ORDER
 
--- Count how many employees are in each department
-SELECT department, COUNT(*) AS total_employees
-FROM Employee
-GROUP BY department;
+-- (i)
+SELECT  emp_city ,count(*) as cnt FROM EMPLOYEES
+GROUP BY emp_city
+ORDER BY CNT ASC
+-- (II)
+SELECT  emp_city ,count(EMP_ID) as cnt FROM EMPLOYEES
+GROUP BY emp_city
+ORDER BY CNT 
 
--- Find the average salary of employees in each department
-SELECT department, AVG(salary) AS average_salary
-FROM Employee
-GROUP BY department;
+-- (III)
 
--- Find the highest salary in each city
-SELECT city, MAX(salary) AS highest_salary
-FROM Employee
-GROUP BY city;
+-- FIND THE NUMBER OF EMPLOYEES IN EACH CITY WHOSE SALARY IS GREATRE THAN EQUAL TO 90000
 
--- Calculate the total salary paid in each department
-SELECT department, SUM(salary) AS total_salary
-FROM Employee
-GROUP BY department;
+-- 1.
+SELECT  emp_city , SUM(CASE WHEN EMP_SALARY>=90000 THEN 1 ELSE 0 END) AS CNT
+FROM EMPLOYEES
+GROUP BY emp_city
 
--- Display only those departments having more than one employee
-SELECT department, COUNT(*) AS total
-FROM Employee
-GROUP BY department
-HAVING COUNT(*) > 1;
+ORDER BY CNT DESC,EMP_CITY DESC
 
--- Find the average salary of each department and sort the result from highest to lowest
-SELECT department, AVG(salary) AS average_salary
-FROM Employee
-GROUP BY department
-ORDER BY average_salary DESC;
+-- 2.
+
+SELECT  emp_city , COUNT(CASE WHEN EMP_SALARY>=90000 THEN 1 END) AS CNT
+FROM EMPLOYEES
+GROUP BY emp_city
+
+
+
+-- FIND THE MAXIMUM EMPLOYEE SALARY IN EACH CITY
+
+SELECT  emp_city , MAX(EMP_SALARY) AS MAX_SALARY
+FROM EMPLOYEES
+GROUP BY emp_city
+
+-- FIND THE MINIMUM EMPLOYEE SALARY IN EACH CITY
+
+SELECT  emp_city , MIN(EMP_SALARY) AS MIN_SALARY
+FROM EMPLOYEES
+GROUP BY emp_city
+
+-- FIND ALL THH CITY WHOSE SALARY IS GRETARE TAHN EQUAL TO 85000
+
+
+SELECT  emp_city , MIN(EMP_SALARY) AS MIN_SALARY
+FROM EMPLOYEES
+GROUP BY emp_city
+HAVING  MIN(EMP_SALARY)>=85000
+
+-- 
+DISTINCT
+
+-- FIND THE DISTINCT CITY
+SELECT  DISTINCT EMP_CITY
+FROM EMPLOYEES
+ 
+
