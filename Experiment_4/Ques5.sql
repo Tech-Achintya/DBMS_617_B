@@ -1,5 +1,7 @@
--- problem link :  https://www.codechef.com/learn/course/sql-intermediate/SQ00BS01/problems/ASQL01D?tab=statement
--- Joins Practice-1
+-- 1.Employee and Manager Names: Display a list of employee names along with their manager's names. Use the 'employees' table provided.
+
+-- 2.Every Possible Combination: Show every possible combination of 'customer_name' from the 'customers' table and 'product_name' from the 'products' table.
+-- Joins Practice-3
 -- Okay, let's put your SQL JOIN knowledge to the test with some practical problems. We'll use the following tables:
 
 -- 1. customers Table:
@@ -18,7 +20,7 @@
 -- 2	1	Mouse	2024-01-15	2
 -- 3	2	Keyboard	2024-01-20	1
 -- 4	3	Monitor	2024-01-22	1
--- 5	2	Laptop	2024-02-01	2
+-- 5	7	Webcam	2023-02-12	3
 -- 3. products Table:
 
 -- product_id	product_name	category_id	price
@@ -42,18 +44,21 @@
 -- 3	Peter Jones	1	Marketing
 -- 4	Mary Green	3	Marketing
 -- 5	Raj	2	Sales
+-- Problems:
 
+-- 1.Employee and Manager Names: Display a list of employee names along with their manager's names. Use the 'employees' table provided above.
 
+-- 2.Every Possible Combination: Show every possible combination of 'customer_name' from the 'customers' table and 'product_name' from the 'products' table.
 
-SELECT c.customer_name, o.order_date
+SELECT 
+    e.employee_name AS Employee,
+    m.employee_name AS Manager
+FROM employees e
+LEFT JOIN employees m
+    ON e.manager_id = m.employee_id;
+
+SELECT 
+    c.customer_name,
+    p.product_name
 FROM customers c
-INNER JOIN orders o ON c.customer_id = o.customer_id;
-
-
-SELECT c.customer_name, o.product_name
-FROM customers c
-LEFT JOIN orders o ON c.customer_id = o.customer_id;
-
-SELECT p.product_name, o.order_date
-FROM products p
-INNER JOIN orders o ON p.product_name = o.product_name;
+CROSS JOIN products p;

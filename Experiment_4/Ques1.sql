@@ -1,102 +1,46 @@
---Problem Link :  https://www.codechef.com/learn/course/sql-intermediate/SQ00BS01/problems/ASQL01E?tab=statement
+-- problem link : https://www.codechef.com/learn/course/sql-intermediate/SQ00BS01/problems/GSQ63?tab=statement
+-- Left Joins
+-- We've learned that by default SQL removes the rows which doesn't match while joining tables.
 
--- Joins Practice-2
--- Okay, let's put your SQL JOIN knowledge to the test with some practical problems. We'll use the following tables:
+-- However, if we wish to join two tables whose rows doesn't match, we can do that using LEFT JOIN.
+-- When two tables are joined using 'LEFT JOIN', and if the rows don't match,
 
--- 1. customers Table:
+-- All the rows in the first table(left) will be kept as such and
+-- Whenever a row doesn't a corresponding row in the second table (right), those columns will be kept blank.
+-- Below is the query to join the table 'customer' and 'order' using LEFT JOIN
 
--- customer_id	customer_name	city
--- 1	Alice Smith	New York
--- 2	Bob Johnson	Los Angeles
--- 3	Carol Williams	Chicago
--- 4	David Brown	Houston
--- 5	Emily Davis	Phoenix
--- 6	Luffy	NULL
--- 2. orders Table:
+--      SELECT *
+--      FROM customer
+--      LEFT JOIN order
+--      ON customer.cust_id = order.cust_id;
+-- Task
+-- Write a query to do the following:
 
--- order_id	customer_id	product_name	order_date	quantity
--- 1	1	Laptop	2024-01-15	1
--- 2	1	Mouse	2024-01-15	2
--- 3	2	Keyboard	2024-01-20	1
--- 4	3	Monitor	2024-01-22	1
--- 5	7	Webcam	2023-02-12	3
--- 3. products Table:
+-- JOIN the tables 'student' and 'course' using 'Course_id' to match both the tables and output the joined table.
+-- LEFT JOIN the tables 'student' and 'course' using 'Course_id' to match both the tables and output the joined table.
+-- Expected output
 
--- product_id	product_name	category_id	price
--- 1	Laptop	1	1200
--- 2	Mouse	2	25
--- 3	Keyboard	2	75
--- 4	Monitor	1	300
--- 5	Webcam	2	60
--- 6	Tablet	3	250
--- 4. categories Table:
-
--- category_id	category_name
--- 1	Electronics
--- 2	Accessories
--- 3	Tablets
--- 5. employees Table:
-
--- employee_id	employee_name	manager_id	department
--- 1	John Doe	NULL	Sales
--- 2	Jane Smith	1	Sales
--- 3	Peter Jones	1	Marketing
--- 4	Mary Green	3	Marketing
--- 5	Raj	2	Sales
--- Problems:
-
--- 1.All orders with Customers Details: Get all of the orders table and also the details of respective customers if they exist. Use the customer and orders table.
-
--- 2.Products and Categories: Create a combined list of all products and all categories. Include all product names and all category names. Where there's a match, show both; otherwise, use NULLs.
-
--- 3.All category names with product details: display category_name, along with all product names and price from all the categories present in categories table.
-
--- Expected Output
-
--- ┌────────────────┬──────────┬─────────────┬──────────────┬────────────┬──────────┐
--- │ customer_name  │ order_id │ customer_id │ product_name │ order_date │ quantity │
--- ├────────────────┼──────────┼─────────────┼──────────────┼────────────┼──────────┤
--- │ Alice Smith    │ 1        │ 1           │ Laptop       │ 2024-01-15 │ 1        │
--- │ Alice Smith    │ 2        │ 1           │ Mouse        │ 2024-01-15 │ 2        │
--- │ Bob Johnson    │ 3        │ 2           │ Keyboard     │ 2024-01-20 │ 1        │
--- │ Carol Williams │ 4        │ 3           │ Monitor      │ 2024-01-22 │ 1        │
--- └────────────────┴──────────┴─────────────┴──────────────┴────────────┴──────────┘
--- ┌──────────────┬───────────────┐
--- │ product_name │ category_name │
--- ├──────────────┼───────────────┤
--- │ Laptop       │ Electronics   │
--- │ Mouse        │ Accessories   │
--- │ Keyboard     │ Accessories   │
--- │ Monitor      │ Electronics   │
--- │ Webcam       │ Accessories   │
--- │ Tablet       │ Tablets       │
--- └──────────────┴───────────────┘
--- ┌───────────────┬──────────────┬───────┐
--- │ category_name │ product_name │ price │
--- ├───────────────┼──────────────┼───────┤
--- │ Electronics   │ Laptop       │ 1200  │
--- │ Accessories   │ Mouse        │ 25    │
--- │ Accessories   │ Keyboard     │ 75    │
--- │ Electronics   │ Monitor      │ 300   │
--- │ Accessories   │ Webcam       │ 60    │
--- │ Tablets       │ Tablet       │ 250   │
--- └───────────────┴──────────────┴───────┘
+-- St_id	St_Name	Department	Course_id	Course_id	Course_Name	Credits	Prof_id
+-- 1001	John Smith	Computer Science	CS101	CS101	Introduction to Computer Science	3	2001
+-- 1002	Emily Brown	History	HIS102	HIS102	World History II	3	2004
+-- 1003	David Lee	Mathematics	MAT202	MAT202	Linear Algebra	2	2002
+-- 1004	Sarah Johnson	English	ENG201	ENG201	Advanced Writing	4	2003
+-- St_id	St_Name	Department	Course_id	Course_id	Course_Name	Credits	Prof_id
+-- 1001	John Smith	Computer Science	CS101	CS101	Introduction to Computer Science	3	2001
+-- 1002	Emily Brown	History	HIS102	HIS102	World History II	3	2004
+-- 1003	David Lee	Mathematics	MAT202	MAT202	Linear Algebra	2	2002
+-- 1004	Sarah Johnson	English	ENG201	ENG201	Advanced Writing	4	2003
+-- 1005	Michael Chen	Biology	BIO103	NULL	NULL	NULL	NULL
 
 
+/* Solution as follows */
 
+SELECT *
+FROM student
+JOIN course
+ON student.Course_id = course.Course_id;
 
--- 1. All orders with Customers Details (Right Join)
-SELECT c.customer_name, o.*
-FROM customers c
-RIGHT JOIN orders o ON c.customer_id = o.customer_id;
-
--- 2. Products and Categories (FULL OUTER JOIN)
-SELECT p.product_name, c.category_name
-FROM products p
-FULL OUTER JOIN categories c ON p.category_id = c.category_id;
-
--- 3. All category names with product details (RIGHT JOIN)
-select c.category_name, p.product_name, p.price
-from products p
-RIGHT JOIN categories c
-on p.category_id = c.category_id;
+SELECT *
+FROM student
+LEFT JOIN course
+ON student.Course_id = course.Course_id;
